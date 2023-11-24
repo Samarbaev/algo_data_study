@@ -23,7 +23,7 @@ package practice.sliding_window.longest_repeating_character_replacement
  * Space complexity: O(m), where m = 26
  */
 
-class SolutionFirst: LongestRepeatingCharacterReplacement {
+class LongestRepeatingCharacterReplacementSolutionFirst: LongestRepeatingCharacterReplacement {
 
     override fun characterReplacement(s: String, k: Int): Int {
 
