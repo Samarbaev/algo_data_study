@@ -39,28 +39,46 @@ import java.util.*
  */
 class MaxSlidingWindowSolutionDeque {
 
+    // peek - get index element from deque
+    // poll - get and extract index element from deque
+
     fun maxSlidingWindow(nums: IntArray, k: Int): IntArray {
         val deque: Deque<Int> = LinkedList()
         val result = IntArray(nums.size - k + 1)
         for (i in 0 until k) {
+            // если есть элемент в текущей итерации больше или равен, чем текущий в очереди
+            // смысла хранить его в очереди - нет
             while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
                 deque.pollLast()
             }
+            // добавляем элемент в конец очереди
             deque.offerLast(i)
         }
+        // добавляем первый элемент из очереди в результирующий ответ
         result[0] = nums[deque.peekFirst()]
+        // нулевой элемент добавили в результат => следующий будет с 1ого
         var count = 1
+        // в списке элементов с 0-ого до k-ого - максимум найдет, теперь нужно двигать окно с позиции k
+        // пока не дойдет до последнего элемента
         for (i in k until nums.size) {
+            // если условие выполняется, то это значит, что первый элемент в очереди находится за пределами текущего окна
+            // его необходио удалить
             if (deque.peekFirst() == i - k) {
                 deque.pollFirst()
             }
+            // если очередь не пустая и текущий элемент больше посленего добавленного,то
+            // мы его может без проблем удалить
             while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
                 deque.pollLast()
             }
+            // добавляет элемент в очередб
             deque.offerLast(i)
+            // добавляем максимальный элемент и результирующий массив
             result[count] = nums[deque.peekFirst()]
+            // увеличиваем счетчик
             ++count
         }
+        // возвращаем результат
         return result
     }
 }
