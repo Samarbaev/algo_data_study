@@ -1,4 +1,4 @@
-package practice.array_and_hashing
+package practice.array_and_hashing.valid_sudoku
 
 /***
  * Заводим 3 булевых массива, на каждую строку, на каждый столбец и на каждый квадрат, размеров 3х3
