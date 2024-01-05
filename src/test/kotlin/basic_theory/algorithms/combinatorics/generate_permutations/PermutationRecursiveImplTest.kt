@@ -1,11 +1,10 @@
-package basic_theory.algorithms.combinatorics.generate_permutations_without_duplicates
+package basic_theory.algorithms.combinatorics.generate_permutations
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-internal class PermutationIterativeImplTest {
-
-    private val permutation = PermutationIterativeImpl()
+internal class PermutationRecursiveImplTest {
+    private val permutation = PermutationRecursiveImpl()
 
 
     @Test
@@ -18,17 +17,6 @@ internal class PermutationIterativeImplTest {
             listOf(2, 3, 1),
             listOf(3, 2, 1),
             listOf(3, 1, 2),
-        )
-        assertTrue(permutation.permute(input).containsAll(output))
-    }
-
-    @Test
-    fun testCasePermutationWithoutUniqueElements() {
-        val input = intArrayOf(1, 1, 3)
-        val output = listOf(
-            listOf(1, 1, 3),
-            listOf(1, 3, 1),
-            listOf(3, 1, 1),
         )
         assertTrue(permutation.permute(input).containsAll(output))
     }

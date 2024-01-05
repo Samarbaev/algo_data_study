@@ -1,4 +1,4 @@
-package basic_theory.algorithms.combinatorics.generate_permutations_without_duplicates
+package basic_theory.algorithms.combinatorics.generate_permutations
 
 /**
  * Описание алгоритма:
@@ -37,51 +37,6 @@ class PermutationIterativeImpl : Permutation {
     /**
      * Утилитарная функция для того, чтобы поменять элементы местами
      * */
-    private fun swap(array: IntArray, start: Int, end: Int) {
-        val tmp = array[start]
-        array[start] = array[end]
-        array[end] = tmp
-    }
-
-    /**
-     * Развернуть элементы массива в обратно порядке с указанных позиций
-     * */
-    private fun reversed(array: IntArray, start: Int, end: Int) {
-        var i = start
-        var j = end
-        while (i < j) {
-            swap(array, i, j)
-            i++
-            j--
-        }
-    }
-}
-
-class Solution {
-    fun permute(nums: IntArray): List<List<Int>> {
-        nums.sort() // sort the array
-        val n = nums.size
-        val ans: MutableList<MutableList<Int>> = mutableListOf()
-        ans.add(nums.toMutableList())
-        while (true) {
-            var k = n - 2
-            while (k >= 0 && nums[k] >= nums[k + 1]) {
-                k--
-            }
-            if (k < 0) {
-                break
-            }
-            var l = n - 1
-            while (l >= 0 && nums[k] >= nums[l]) {
-                l--
-            }
-            swap(nums, k, l)
-            reversed(nums, k + 1, n - 1)
-            ans.add(nums.toMutableList())
-        }
-        return ans
-    }
-
     private fun swap(array: IntArray, start: Int, end: Int) {
         val tmp = array[start]
         array[start] = array[end]
