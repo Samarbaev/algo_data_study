@@ -1,4 +1,4 @@
-package basic_theory.algorithms.combinatorics.generate_permutations_without_duplicates
+package basic_theory.algorithms.combinatorics.generate_permutations
 
 interface Permutation {
 
