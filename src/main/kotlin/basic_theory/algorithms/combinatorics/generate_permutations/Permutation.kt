@@ -7,6 +7,6 @@ interface Permutation {
      *
      * @return сгенерированные все перестановки
      */
-    fun permute(nums: IntArray) : List<List<Int>>
+    fun generatePermute(nums: IntArray) : List<List<Int>>
 
 }

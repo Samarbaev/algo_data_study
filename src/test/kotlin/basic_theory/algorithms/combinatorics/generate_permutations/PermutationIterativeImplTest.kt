@@ -19,7 +19,7 @@ internal class PermutationIterativeImplTest {
             listOf(3, 2, 1),
             listOf(3, 1, 2),
         )
-        assertTrue(permutation.permute(input).containsAll(output))
+        assertTrue(permutation.generatePermute(input).containsAll(output))
     }
 
     @Test
@@ -30,14 +30,14 @@ internal class PermutationIterativeImplTest {
             listOf(1, 3, 1),
             listOf(3, 1, 1),
         )
-        assertTrue(permutation.permute(input).containsAll(output))
+        assertTrue(permutation.generatePermute(input).containsAll(output))
     }
 
     @Test
     fun testCase2() {
         val input = intArrayOf()
         val output = listOf<List<Int>>(emptyList())
-        assertTrue(permutation.permute(input) == output)
+        assertTrue(permutation.generatePermute(input) == output)
 
     }
 }

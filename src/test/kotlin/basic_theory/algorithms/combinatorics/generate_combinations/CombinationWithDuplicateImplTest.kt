@@ -32,6 +32,6 @@ internal class CombinationWithDuplicateImplTest {
             listOf(3,4,4),
             listOf(4,4,4),
         )
-        assertTrue(combinationWithDuplicateImpl.combine(4,3) == output)
+        assertTrue(combinationWithDuplicateImpl.generateCombine(4,3) == output)
     }
 }

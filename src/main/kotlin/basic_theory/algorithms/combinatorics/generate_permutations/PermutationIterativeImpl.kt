@@ -1,5 +1,7 @@
 package basic_theory.algorithms.combinatorics.generate_permutations
 
+
+
 /**
  * Описание алгоритма:
  *
@@ -8,9 +10,11 @@ package basic_theory.algorithms.combinatorics.generate_permutations
  * 2) Ищем максимальный индекс j для которого а[j] >= a[i] (Идем с конца
  * 3) Поменять местами a[j] и a[i]
  * 4) Записываем элементы от a[i+1]..a[n] в обратном
+ *
+ * Алгоритм отработает для генерации перестановок с повторениями
  * */
 class PermutationIterativeImpl : Permutation {
-    override fun permute(nums: IntArray) : List<List<Int>> {
+    override fun generatePermute(nums: IntArray) : List<List<Int>> {
         val ans: MutableList<List<Int>> = mutableListOf()
         ans.add(nums.toList())
         while (true) {
