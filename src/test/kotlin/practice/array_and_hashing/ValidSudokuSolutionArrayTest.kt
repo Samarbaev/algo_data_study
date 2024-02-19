@@ -1,7 +1,7 @@
 package practice.array_and_hashing
 
 import org.junit.jupiter.api.Assertions.*
-import practice.array_and_hashing.valid_sudoku.ValidSudokuSolutionArray
+import practice.leetcode.array_and_hashing.valid_sudoku.ValidSudokuSolutionArray
 import kotlin.test.Test
 
 internal class ValidSudokuSolutionArrayTest {

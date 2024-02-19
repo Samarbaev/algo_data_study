@@ -1,6 +1,7 @@
 package practice.array_and_hashing.valid_anagram
 
 import org.junit.jupiter.api.Test
+import practice.leetcode.array_and_hashing.valid_anagram.ValidAnagramSolutionOneArray
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 

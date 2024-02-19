@@ -1,7 +1,7 @@
 package practice.sliding_window
 
 import org.junit.jupiter.api.Assertions.*
-import practice.sliding_window.longest_repeating_character_replacement.LongestRepeatingCharacterReplacementSolutionFirst
+import practice.leetcode.sliding_window.longest_repeating_character_replacement.LongestRepeatingCharacterReplacementSolutionFirst
 import kotlin.test.Test
 
 internal class PermutationInStringLongestRepeatingCharacterReplacementSolutionFirstTest {

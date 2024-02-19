@@ -1,6 +1,7 @@
 package practice.sliding_window.sliding_window_maximum
 
 import org.junit.jupiter.api.Assertions.*
+import practice.leetcode.sliding_window.sliding_window_maximum.MaxSlidingWindowSolutionHeapMax
 import kotlin.test.Test
 
 internal class MaxSlidingWindowSolutionHeapMaxTest {

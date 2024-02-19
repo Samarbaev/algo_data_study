@@ -2,6 +2,7 @@ package practice.array_and_hashing.group_anagrams
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import practice.leetcode.array_and_hashing.group_anagrams.GroupAnagramsSolutionMap
 
 internal class GroupAnagramsSolutionMapTest {
 

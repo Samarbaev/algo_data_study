@@ -1,6 +1,7 @@
 package practice.sliding_window.permutation_in_string
 
 import org.junit.jupiter.api.Test
+import practice.leetcode.sliding_window.permutation_in_string.*
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 

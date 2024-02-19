@@ -1,6 +1,7 @@
 package practice.array_and_hashing.contains_duplicate
 
 import org.junit.jupiter.api.Test
+import practice.leetcode.array_and_hashing.contains_duplicate.ContainDuplicatesSolution
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
