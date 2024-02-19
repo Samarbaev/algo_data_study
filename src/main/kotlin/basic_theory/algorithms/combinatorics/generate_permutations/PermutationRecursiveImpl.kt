@@ -8,7 +8,7 @@ package basic_theory.algorithms.combinatorics.generate_permutations
  *
  * */
 class PermutationRecursiveImpl : Permutation {
-    override fun permute(nums: IntArray): List<List<Int>> {
+    override fun generatePermute(nums: IntArray): List<List<Int>> {
         val ans: MutableList<MutableList<Int>> = ArrayList()
         generatePermutation(ArrayList(), ans, nums)
         return ans

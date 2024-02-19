@@ -16,7 +16,7 @@ internal class CombinationWithoutDuplicateImplTest {
             listOf(1, 3, 4),
             listOf(2, 3, 4),
         )
-        assertEquals(combinationWithoutDuplicateImpl.combine(4, 3), output)
+        assertEquals(combinationWithoutDuplicateImpl.generateCombine(4, 3), output)
 
     }
 }
