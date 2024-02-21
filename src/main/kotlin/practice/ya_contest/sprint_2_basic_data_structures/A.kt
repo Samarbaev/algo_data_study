@@ -1,4 +1,4 @@
-package practice.ya_contest.sprint_3
+package practice.ya_contest.sprint_2_basic_data_structures
 
 /***
  * Алла получила задание, связанное с мониторингом работы различных серверов.
@@ -23,6 +23,7 @@ package practice.ya_contest.sprint_3
  */
 
 fun main() {
+    listOf<Int>().sortedDescending()
     val n = readLine()?.toIntOrNull() ?: 0
 
     val m = readLine()?.toIntOrNull() ?: 0

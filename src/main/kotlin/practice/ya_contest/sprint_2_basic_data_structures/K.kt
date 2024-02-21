@@ -1,4 +1,4 @@
-package practice.ya_contest.sprint_3
+package practice.ya_contest.sprint_2_basic_data_structures
 
 
 /**

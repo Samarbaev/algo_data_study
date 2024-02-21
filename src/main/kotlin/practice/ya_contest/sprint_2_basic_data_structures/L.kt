@@ -1,4 +1,4 @@
-package practice.ya_contest.sprint_3
+package practice.ya_contest.sprint_2_basic_data_structures
 
 /**
  * У Тимофея было очень много стажёров, целых N (0 ≤ N ≤ 106) человек.
