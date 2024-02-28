@@ -1,6 +1,6 @@
 package practice.ya_contest.sprint_3_sorts_and_recursion.final
 
-// https://contest.yandex.ru/contest/23815/run-report/108312360/
+// https://contest.yandex.ru/contest/23815/run-report/108351713/
 
 /**
  * Time complexity: Амортизационно 0(N * log(N))
@@ -114,7 +114,8 @@ fun main() {
         { it.user }
     )
     val participantsCount = readLine()!!.toInt()
-    MutableList(participantsCount) { readLine()!!.parseParticipant() }
+    val participants = MutableList(participantsCount) { readLine()!!.parseParticipant() }
         .also { participants -> QuickSort(participants, participantComparator).quickSort() }
-        .forEach { println(it.user) }
+    val users = participants.joinToString(separator = "\n") { it.user }
+    println(users)
 }
