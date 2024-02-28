@@ -4,8 +4,16 @@ package practice.ya_contest.sprint_3_sorts_and_recursion.final
 
 /**
  * Time complexity: Амортизационно 0(N * log(N))
- * Space comlexity: 0(1)
- *
+ * Space comlexity:
+ * 1) Класс Participant имеет 3 свойства (user, tasks и errors). Пространство, необходимое для хранения каждого экземпляра Participant, является постоянным, независимо от количества участников.
+ * 2) Расширение функции toParticipant создает новые экземпляры класса Participant, разбивая строку и преобразуя значения в Int. Пространство, необходимое для этой функции, зависит от размера строки, но все равно считается постоянным для каждого вызова.
+ * 3) Класс QuickSort имеет свойство participants, которое является MutableList, содержащим участников. Пространство, требуемое для списка participants, пропорционально количеству участников (participantsCount).
+ * 4) Функция quickSort представляет собой рекурсивную реализацию быстрой сортировки. Она не использует дополнительное пространство, кроме аргументов функции и переменных, которые являются постоянными.
+ * 5) Функция partition использует только несколько переменных (pivot, start, end), которые являются постоянными.
+ * 6) Расширение функции swap меняет местами два элемента в списке и не требует дополнительного пространства.
+ * 7) В функции main participantsCount - это одна целочисленная переменная, которая требует постоянного пространства. Список participants создается и сортируется на месте, поэтому пространство, необходимое для списка, пропорционально participantsCount.
+ * Итог
+ * Получается, что пространственная сложность этого кода может быть рассмотрена как O(n), где n - количество участников (participantsCount).
  */
 
 
@@ -22,15 +30,10 @@ data class Participant(
 /**
  * Преобразуем строку в объект Participant
  * */
-fun String.toParticipant(): Participant {
+fun String.parseParticipant(): Participant {
     val (user, tasks, errors) = this.split(" ")
     return Participant(user = user, tasks = tasks.toInt(), errors = errors.toInt())
 }
-
-/**
- * Функция для обмена - поменять местами элементы в массиве
- * */
-
 
 /**
  * Реализация быстрой сортировки через компаратор, поскольку много условий, по которым нужно сортировать участников, компаратор
@@ -50,7 +53,7 @@ class QuickSort<T>(
 ) {
     fun quickSort(
         startIndex: Int = 0,
-        endIndex: Int = participants.size - 1,
+        endIndex: Int = participants.lastIndex,
     ) {
         if (startIndex < endIndex) {
             val pivotIndex = partition(startIndex, endIndex)
@@ -111,7 +114,7 @@ fun main() {
         { it.user }
     )
     val participantsCount = readLine()!!.toInt()
-    MutableList(participantsCount) { readLine()!!.toParticipant() }
+    MutableList(participantsCount) { readLine()!!.parseParticipant() }
         .also { participants -> QuickSort(participants, participantComparator).quickSort() }
         .forEach { println(it.user) }
 }
