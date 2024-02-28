@@ -9,26 +9,31 @@ package practice.ya_contest.sprint_3_sorts_and_recursion.final
  * Таким образом, этот алгоритм использует модифицированный двоичный поиск для поиска элемента target в искаженном (неправильно переставленном) массиве arr.
  * */
 
+/**
+ * Time complexity - O(log(n))
+ * Space complexity - 0(1)
+ * */
+
 object Solution {
     fun brokenSearch(arr: IntArray, target: Int): Int {
         var left = -1
         var right = arr.size
 
-        while(right - left > 1) {
+        while (right - left > 1) {
             val middle = left + (right - left) / 2
 
-            if(arr[middle] == target) {
+            if (arr[middle] == target) {
                 return middle
             }
 
-            if(arr[middle] >= arr[left + 1]) {
+            if (arr[middle] >= arr[left + 1]) {
                 if (target >= arr[left + 1] && target < arr[middle]) {
                     right = middle;
                 } else {
                     left = middle;
                 }
             } else {
-                if(target <= arr[right - 1] && target >arr[middle]) {
+                if (target <= arr[right - 1] && target > arr[middle]) {
                     left = middle
                 } else {
                     right = middle

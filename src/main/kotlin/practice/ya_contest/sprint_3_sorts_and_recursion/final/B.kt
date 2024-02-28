@@ -1,6 +1,13 @@
 package practice.ya_contest.sprint_3_sorts_and_recursion.final
 
-// https://contest.yandex.ru/contest/23815/run-report/108273632/
+// https://contest.yandex.ru/contest/23815/run-report/108312360/
+
+/**
+ * Time complexity: Амортизационно 0(N * log(N))
+ * Space comlexity: 0(1)
+ *
+ */
+
 
 /**
  * Класс, который хранит информацию об участнике
@@ -16,18 +23,14 @@ data class Participant(
  * Преобразуем строку в объект Participant
  * */
 fun String.toParticipant(): Participant {
-    val str = this.split(" ")
-    return Participant(user = str[0], tasks = str[1].toInt(), errors = str[2].toInt())
+    val (user, tasks, errors) = this.split(" ")
+    return Participant(user = user, tasks = tasks.toInt(), errors = errors.toInt())
 }
 
 /**
  * Функция для обмена - поменять местами элементы в массиве
  * */
-fun MutableList<Participant>.swap(index1: Int, index2: Int) {
-    val temp = this[index1]
-    this[index1] = this[index2]
-    this[index2] = temp
-}
+
 
 /**
  * Реализация быстрой сортировки через компаратор, поскольку много условий, по которым нужно сортировать участников, компаратор
@@ -40,70 +43,75 @@ fun MutableList<Participant>.swap(index1: Int, index2: Int) {
  *
  * И каждый раз проверяем что startIndex < endIndex
  * */
-fun quickSort(
-    participants: MutableList<Participant>,
-    comparator: Comparator<in Participant>,
-    startIndex: Int,
-    endIndex: Int,
+
+class QuickSort<T>(
+    private val participants: MutableList<T>,
+    private val comparator: Comparator<in T>,
 ) {
-    if (startIndex < endIndex) {
-        val pivotIndex = partition(participants, comparator, startIndex, endIndex)
-        quickSort(participants, comparator, startIndex, pivotIndex - 1)
-        quickSort(participants, comparator, pivotIndex + 1, endIndex)
-    }
-}
-
-/**
- * participants - это изменяемый список (MutableList) объектов Participant, которые должны быть разделены.
- * comparator - это компаратор, используемый для сравнения элементов в списке participants.
- * startIndex и endIndex представляют диапазон индексов, который нужно учесть при разделении.
- * функция выбирает pivot, который определяется как элемент с индексом endIndex.
- * Инициализируется переменная i со значением startIndex - 1.
- * Происходит цикл for, который перебирает индексы от startIndex до endIndex - 1.
- * Внутри цикла, если элемент с индексом j меньше или равно пивоту на основе компаратора, то инкрементируется i и выполняется замена элементов с индексами i и j в списке participants.
- * По окончании цикла, pivot устанавливается на свою конечную позицию путем замены его с элементом с индексом i + 1.
- * В конце функция возвращает индекс pivot в отсортированном списке
- * */
-fun partition(
-    participants: MutableList<Participant>,
-    comparator: Comparator<in Participant>,
-    startIndex: Int,
-    endIndex: Int
-): Int {
-    val pivot = participants[endIndex]
-    var i = startIndex - 1
-
-    for (j in startIndex until endIndex) {
-        if (comparator.compare(participants[j], pivot) <= 0) {
-            i++
-            participants.swap(i, j)
+    fun quickSort(
+        startIndex: Int = 0,
+        endIndex: Int = participants.size - 1,
+    ) {
+        if (startIndex < endIndex) {
+            val pivotIndex = partition(startIndex, endIndex)
+            quickSort(startIndex, pivotIndex - 1)
+            quickSort(pivotIndex + 1, endIndex)
         }
     }
 
-    participants.swap(i + 1, endIndex)
-    return i + 1
+    /**
+     * participants - это изменяемый список (MutableList) объектов Participant, которые должны быть разделены.
+     * comparator - это компаратор, используемый для сравнения элементов в списке participants.
+     * startIndex и endIndex представляют диапазон индексов, который нужно учесть при разделении.
+     * функция выбирает pivot, который определяется как элемент с индексом endIndex.
+     * Инициализируется переменная i со значением startIndex - 1.
+     * Происходит цикл for, который перебирает индексы от startIndex до endIndex - 1.
+     * Внутри цикла, если элемент с индексом j меньше или равно пивоту на основе компаратора, то инкрементируется i и выполняется замена элементов с индексами i и j в списке participants.
+     * По окончании цикла, pivot устанавливается на свою конечную позицию путем замены его с элементом с индексом i + 1.
+     * В конце функция возвращает индекс pivot в отсортированном списке
+     * */
+    private fun partition(
+        startIndex: Int,
+        endIndex: Int
+    ): Int {
+        val pivot = participants[endIndex]
+        var start = startIndex
+        var end = endIndex - 1
+
+        while (start <= end) {
+            while (start <= end && comparator.compare(participants[start], pivot) <= 0) {
+                start++
+            }
+
+            while (start <= end && comparator.compare(participants[end], pivot) > 0) {
+                end--
+            }
+
+            if (start < end) {
+                participants.swap(start, end)
+            }
+        }
+
+        participants.swap(start, endIndex)
+        return start
+    }
+
+    private fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
+        val temp = this[index1]
+        this[index1] = this[index2]
+        this[index2] = temp
+    }
 }
+
 
 fun main() {
-    /**
-     * Создаем компаратор
-     * */
-    val participantComparator = Comparator<Participant> { p1, p2 ->
-        when {
-            p1.tasks > p2.tasks -> -1
-            p1.tasks < p2.tasks -> 1
-            p1.errors > p2.errors -> 1
-            p1.errors < p2.errors -> -1
-            else -> p1.user.compareTo(p2.user)
-        }
-    }
-    val number = readLine()!!.toInt()
-    val competitors = mutableListOf<Participant>()
-    repeat(number) {
-        val inputCompetitor = readLine()!!.toParticipant()
-        competitors.add(inputCompetitor)
-    }
-    val left = 0
-    quickSort(competitors, participantComparator, left, competitors.size - 1)
-    competitors.forEach { println(it.user) }
+    val participantComparator = compareBy<Participant>(
+        { -it.tasks },
+        { it.errors },
+        { it.user }
+    )
+    val participantsCount = readLine()!!.toInt()
+    MutableList(participantsCount) { readLine()!!.toParticipant() }
+        .also { participants -> QuickSort(participants, participantComparator).quickSort() }
+        .forEach { println(it.user) }
 }
