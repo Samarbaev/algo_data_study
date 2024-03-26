@@ -53,25 +53,21 @@ class BasicHashMap<K, V>(private val capacity: Int = 16, private val loadFactor:
     private var size = 0
 
     init {
-        if(loadFactor > 1.0) throw Exception("Load factor is more 1.0")
+        require(loadFactor < 1.0) { "Load factor is more 1.0" }
     }
 
     fun put(key: K, value: V) {
         val index = calculateIndexToArray(key)
-        var entry = table[index]
+        val (entry, _) = findEntry(key, index)
 
-        while (entry != null) {
-            if (entry.key == key) {
-                entry.value = value
-                return
-            }
-            entry = entry.next
+        if (entry != null) {
+            entry.value = value
+        } else {
+            val newEntry = Entry(key, value)
+            newEntry.next = table[index]
+            table[index] = newEntry
+            size++
         }
-
-        val newEntry = Entry(key, value)
-        newEntry.next = table[index]
-        table[index] = newEntry
-        size++
 
         if (shouldIncreaseCapacity()) {
             increaseCapacity()
@@ -80,38 +76,38 @@ class BasicHashMap<K, V>(private val capacity: Int = 16, private val loadFactor:
 
     fun get(key: K): V? {
         val index = calculateIndexToArray(key)
-        var entry = table[index]
-
-        while (entry != null) {
-            if (entry.key == key) {
-                return entry.value
-            }
-            entry = entry.next
-        }
-
-        return null
+        val (entry, _) = findEntry(key, index)
+        return entry?.value
     }
 
     fun delete(key: K): V? {
         val index = calculateIndexToArray(key)
-        var prev: Entry<K, V>? = null
+        val (entry, prevEntry) = findEntry(key, index)
+
+        if (entry != null) {
+            if (prevEntry == null) {
+                table[index] = entry.next
+            } else {
+                prevEntry.next = entry.next
+            }
+            size--
+            return entry.value
+        }
+        return null
+    }
+
+    private fun findEntry(key: K, index: Int): Pair<Entry<K, V>?, Entry<K, V>?> {
+        var prevEntry: Entry<K, V>? = null
         var entry = table[index]
 
         while (entry != null) {
             if (entry.key == key) {
-                if (prev == null) {
-                    table[index] = entry.next
-                } else {
-                    prev.next = entry.next
-                }
-                size--
-                return entry.value
+                return Pair(entry, prevEntry)
             }
-            prev = entry
+            prevEntry = entry
             entry = entry.next
         }
-
-        return null
+        return Pair(null, null)
     }
 
     private fun calculateIndexToArray(key: K): Int {
@@ -130,7 +126,7 @@ class BasicHashMap<K, V>(private val capacity: Int = 16, private val loadFactor:
             var entry = table[i]
 
             while (entry != null) {
-                val newIndex = entry.key.hashCode() and (newCapacity - 1)
+                val newIndex = calculateIndexToArray(entry.key) and (newCapacity - 1)
                 val next = entry.next
 
                 entry.next = newTable[newIndex]
@@ -142,20 +138,18 @@ class BasicHashMap<K, V>(private val capacity: Int = 16, private val loadFactor:
 
         table = newTable
     }
-
 }
-
 fun main() {
     val n = readLine()!!.toInt()
-    val hashtable = BasicHashMap<Int, Int>(n)
+    val map = BasicHashMap<Int, Int>(n)
     val output = StringBuilder()
 
     for (i in 0 until n) {
         val cmd = readLine()!!.split(" ")
         when (cmd[0]) {
-            "get" -> output.appendLine(hashtable.get(cmd[1].toInt()) ?: "None")
-            "put" -> hashtable.put(cmd[1].toInt(), cmd[2].toInt())
-            "delete" -> output.appendLine(hashtable.delete(cmd[1].toInt()) ?: "None")
+            "get" -> output.appendLine(map.get(cmd[1].toInt()) ?: "None")
+            "put" -> map.put(cmd[1].toInt(), cmd[2].toInt())
+            "delete" -> output.appendLine(map.delete(cmd[1].toInt()) ?: "None")
         }
     }
     print(output.toString())

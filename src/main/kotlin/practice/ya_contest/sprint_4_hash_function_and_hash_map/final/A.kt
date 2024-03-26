@@ -20,56 +20,38 @@ package practice.ya_contest.sprint_4_hash_function_and_hash_map.final
  * Time complexity: O(nk) - индексирование, O(n * log(k)) - поиск.
  */
 
-fun countIndices(files: List<List<String>>): Map<String, Map<Int, Int>> {
-    val index = HashMap<String, HashMap<Int, Int>>()
+fun main() {
+    val countDocuments = readLine()!!.toInt() // Читаем количество документов
+    val documents = Array(countDocuments) { readLine()!! }
 
-    for ((filename, words) in files.withIndex()) {
-        val wordCount = HashMap<String, Int>()
-        for (word in words) {
-            wordCount[word] = wordCount.getOrDefault(word, 0) + 1
-        }
+    // Создаем индекс
+    val index = buildIndex(documents)
 
-        for ((word, weight) in wordCount) {
-            index.getOrPut(word) { HashMap() }[filename] = weight
+    val countQueries = readLine()!!.toInt() // Читаем количество запросов
+    repeat(countQueries) {
+        val query = readLine()!!
+        val result = findMostRelevantDocuments(query, index)
+        println(result.joinToString(" "))
+    }
+}
+
+fun buildIndex(documents: Array<String>): Map<String, List<Pair<Int, Int>>> {
+    val index = mutableMapOf<String, MutableList<Pair<Int, Int>>>()
+    documents.forEachIndexed { docId, text ->
+        val wordFrequency = text.split(" ").groupingBy { it }.eachCount()
+        wordFrequency.forEach { (word, frequency) ->
+            index.getOrPut(word) { mutableListOf() }.add(Pair(docId, frequency))
         }
     }
-
     return index
 }
 
-fun handelQueries(index: Map<String, Map<Int, Int>>, string: String, limit: Int = 5, nDocs: Int = 10_000): List<Int> {
-    val result = Array(nDocs) { intArrayOf(0, it) }
-
-    for (word in string.split(" ").toSet()) {
-        if (word in index.keys) {
-            for ((filename, weight) in index[word]!!) {
-                result[filename][0] += weight
-            }
+fun findMostRelevantDocuments(query: String, index: Map<String, List<Pair<Int, Int>>>): List<Int> {
+    val relevanceScores = mutableMapOf<Int, Int>()
+    query.split(" ").distinct().forEach { word ->
+        index[word]?.forEach { (docId, frequency) ->
+            relevanceScores[docId] = relevanceScores.getOrDefault(docId, 0) + frequency
         }
     }
-
-    val sortedDocs = result.filter { it[0] > 0 }
-        .sortedByDescending { it[0] }
-        .map { array -> ++array[1] }
-
-    return sortedDocs.take(limit)
-}
-
-
-fun main() {
-    val n = readln().toInt()
-    val documents = mutableListOf<List<String>>()
-    repeat(n) {
-        val words = readln().split(" ")
-        documents.add(words)
-    }
-
-    val searchIndex = countIndices(documents)
-
-    val m = readln().toInt()
-    repeat(m) {
-        val query = readln()
-        val result = handelQueries(searchIndex, query, limit = 5, nDocs = n + 1)
-        println(result.joinToString(" "))
-    }
+    return relevanceScores.toList().sortedWith(compareByDescending<Pair<Int, Int>> { it.second }.thenBy { it.first }).map { it.first + 1 }.take(5)
 }
