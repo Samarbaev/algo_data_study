@@ -21,13 +21,12 @@ package practice.ya_contest.sprint_4_hash_function_and_hash_map.final
  */
 
 fun main() {
-    val countDocuments = readLine()!!.toInt() // Читаем количество документов
+    val countDocuments = readLine()!!.toInt()
     val documents = Array(countDocuments) { readLine()!! }
 
-    // Создаем индекс
     val index = buildIndex(documents)
 
-    val countQueries = readLine()!!.toInt() // Читаем количество запросов
+    val countQueries = readLine()!!.toInt()
     repeat(countQueries) {
         val query = readLine()!!
         val result = findMostRelevantDocuments(query, index)
