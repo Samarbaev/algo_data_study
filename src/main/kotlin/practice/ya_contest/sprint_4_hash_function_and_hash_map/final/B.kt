@@ -1,7 +1,7 @@
 package practice.ya_contest.sprint_4_hash_function_and_hash_map.final
 
 /**
- * https://contest.yandex.ru/contest/24414/run-report/110327392/
+ * https://contest.yandex.ru/contest/24414/run-report/110600564/
  *
  * 1) Общая информация
  * Решение коллизий через метод цепочек
