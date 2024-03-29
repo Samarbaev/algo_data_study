@@ -53,20 +53,20 @@ class BasicHashMap<K, V>(private val capacity: Int = 16, private val loadFactor:
     private var size = 0
 
     init {
-        require(loadFactor < 1.0) { "Load factor is more 1.0" }
+        require(loadFactor < 1.0) { "Load factor can't be more than 1.0, but it's set to $loadFactor" }
     }
 
     fun put(key: K, value: V) {
-        val index = calculateIndexToArray(key)
-        val (entry, _) = findEntry(key, index)
+        findEntry(key) { entry, _, index ->
 
-        if (entry != null) {
-            entry.value = value
-        } else {
-            val newEntry = Entry(key, value)
-            newEntry.next = table[index]
-            table[index] = newEntry
-            size++
+            if (entry != null) {
+                entry.value = value
+            } else {
+                val newEntry = Entry(key, value)
+                newEntry.next = table[index]
+                table[index] = newEntry
+                size++
+            }
         }
 
         if (shouldIncreaseCapacity()) {
@@ -75,43 +75,40 @@ class BasicHashMap<K, V>(private val capacity: Int = 16, private val loadFactor:
     }
 
     fun get(key: K): V? {
-        val index = calculateIndexToArray(key)
-        val (entry, _) = findEntry(key, index)
-        return entry?.value
+        return findEntry(key) { entry, _, _ ->
+            entry?.value
+        }
     }
 
     fun delete(key: K): V? {
-        val index = calculateIndexToArray(key)
-        val (entry, prevEntry) = findEntry(key, index)
-
-        if (entry != null) {
-            if (prevEntry == null) {
-                table[index] = entry.next
-            } else {
-                prevEntry.next = entry.next
+        findEntry(key) { entry, prevEntry, index ->
+            if (entry != null) {
+                if (prevEntry == null) {
+                    table[index] = entry.next
+                } else {
+                    prevEntry.next = entry.next
+                }
+                size--
+                return entry.value
             }
-            size--
-            return entry.value
+            return null
         }
-        return null
     }
 
-    private fun findEntry(key: K, index: Int): Pair<Entry<K, V>?, Entry<K, V>?> {
+
+    private inline fun <R> findEntry(key: K, body: (entry: Entry<K, V>?, prevEntry: Entry<K, V>?, index: Int) -> R): R {
         var prevEntry: Entry<K, V>? = null
+        val index = (key.hashCode() and Int.MAX_VALUE) % table.size
         var entry = table[index]
 
         while (entry != null) {
             if (entry.key == key) {
-                return Pair(entry, prevEntry)
+                return body(entry, null, index)
             }
             prevEntry = entry
             entry = entry.next
         }
-        return Pair(null, null)
-    }
-
-    private fun calculateIndexToArray(key: K): Int {
-        return (key.hashCode() and Int.MAX_VALUE) % table.size
+        return body(null, prevEntry, index)
     }
 
     private fun shouldIncreaseCapacity(): Boolean {
@@ -126,7 +123,8 @@ class BasicHashMap<K, V>(private val capacity: Int = 16, private val loadFactor:
             var entry = table[i]
 
             while (entry != null) {
-                val newIndex = calculateIndexToArray(entry.key) and (newCapacity - 1)
+                val index = (entry.key.hashCode() and Int.MAX_VALUE) % table.size
+                val newIndex = index and (newCapacity - 1)
                 val next = entry.next
 
                 entry.next = newTable[newIndex]
@@ -139,6 +137,7 @@ class BasicHashMap<K, V>(private val capacity: Int = 16, private val loadFactor:
         table = newTable
     }
 }
+
 fun main() {
     val n = readLine()!!.toInt()
     val map = BasicHashMap<Int, Int>(n)
