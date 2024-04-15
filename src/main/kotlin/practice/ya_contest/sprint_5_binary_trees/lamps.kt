@@ -14,12 +14,7 @@ package practice.ya_contest.sprint_5_binary_trees
  *
  */
 
-class Node(var value: Int) {
-    var left: Node? = null
-    var right: Node? = null
-}
-
-fun treeSolution(head: Node?): Int {
+private fun treeSolution(head: TreeNode?): Int {
     if (head == null) return 0
 
     val leftMax = treeSolution(head.left)
