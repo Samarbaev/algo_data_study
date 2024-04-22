@@ -1,10 +1,12 @@
 package theory.data_structures.trees.bst
 
+import theory.data_structures.trees.bst.avl.AvlNode
+
 interface IBinarySearchTree<T: Comparable<T>> {
 
-    fun find(item: T): T?
+    fun find(key: T): AvlNode?
 
-    fun add(item: T)
+    fun add(root: AvlNode?, key: T): AvlNode?
 
-    fun remove(item: T)
+    fun remove(root: AvlNode?, key: T):  AvlNode?
 }

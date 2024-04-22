@@ -2,30 +2,88 @@ package theory.data_structures.trees.bst.avl
 
 import theory.data_structures.trees.bst.IBinarySearchTree
 
-class AvlTree : IBinarySearchTree<Int> {
+class AvlTree(
+    private var root: AvlNode? = null
+) : IBinarySearchTree<Int> {
 
-    override fun find(item: Int): Int? {
-        TODO("Not yet implemented")
+    companion object {
+        private const val HEIGHT_TREE_IS_EMPTY = -1
+        private const val DEFAULT_VALUE_HEIGHT_FOR_CURRENT_NODE = 1
+
+        private const val BALANCE_FACTOR_IS_NIL = 0
+        private const val MAX_ALLOWED_BALANCE_FACTOR = 1
+        private const val MIN_ALLOWED_BALANCE_FACTOR = -1
     }
 
-    override fun add(item: Int) {
-        TODO("Not yet implemented")
+    override fun find(key: Int): AvlNode? {
+        if (root == null) return null
+        var current = root
+
+        while (current != null) {
+            if (current.value == key) {
+                break
+            }
+            current = if (key < current.value) current.left else current.right
+        }
+        return current
     }
 
-    override fun remove(item: Int) {
-        TODO("Not yet implemented")
+    override fun add(root: AvlNode?, key: Int): AvlNode? {
+        var currentNode = root
+        if (currentNode == null) currentNode = AvlNode(key)
+        if (key < currentNode.value) {
+            currentNode.left = add(currentNode, key)
+        } else if (key > currentNode.value) {
+            currentNode.right = add(currentNode, key)
+        } else {
+            throw Exception("duplicate key!");
+        }
+        return rebalance(currentNode)
     }
+
+    override fun remove(root: AvlNode?, key: Int): AvlNode? {
+        var node = root
+        if (node == null) {
+            return node
+        } else if (node.value > key) {
+            node.left = remove(node.left, key)
+        } else if (node.value < key) {
+            node.right = remove(node.right, key)
+        } else {
+            if (node.left == null || node.right == null) {
+                node = if (node.left == null) node.right else node.left
+            } else {
+                val mostLeftChild = minNode(node.right)
+                mostLeftChild?.value?.let { node?.value = it }
+                node.right = remove(node.right, node.value)
+            }
+        }
+        if (node != null) {
+            node = rebalance(node)
+        }
+        return node
+    }
+
+    private fun minNode(node: AvlNode?): AvlNode? {
+        var current = node
+        while (current != null) {
+            current = current.left
+        }
+        return current
+    }
+
+    fun getRoot() = root
 
     private fun height(node: AvlNode?): Int {
-        return node?.height ?: -1
+        return node?.height ?: HEIGHT_TREE_IS_EMPTY
     }
 
     private fun balanceFactor(node: AvlNode?): Int {
-        return if (node == null) 0 else (height(node.right) - height(node.right))
+        return if (node == null) BALANCE_FACTOR_IS_NIL else (height(node.right) - height(node.right))
     }
 
     private fun updateHeight(node: AvlNode?) {
-        1 + maxOf(height(node?.left), height(node?.right))
+        DEFAULT_VALUE_HEIGHT_FOR_CURRENT_NODE + maxOf(height(node?.left), height(node?.right))
     }
 
     private fun rotateRight(y: AvlNode?): AvlNode? {
@@ -48,26 +106,27 @@ class AvlTree : IBinarySearchTree<Int> {
         return x
     }
 
-    private fun rebalance(z: AvlNode?): AvlNode? {
-        var varZ: AvlNode? = z
-        updateHeight(varZ)
-        val balance: Int = balanceFactor(varZ)
-        if (balance > 1) {
-            if (height(varZ?.right?.right) > height(varZ?.right?.left)) {
-                varZ = rotateLeft(varZ)
+    private fun rebalance(node: AvlNode?): AvlNode? {
+        var currentAvlNode: AvlNode? = node
+        updateHeight(currentAvlNode)
+        val balanceFactor: Int = balanceFactor(currentAvlNode)
+
+        if (balanceFactor > MAX_ALLOWED_BALANCE_FACTOR) {
+            if (height(currentAvlNode?.right?.right) > height(currentAvlNode?.right?.left)) {
+                currentAvlNode = rotateLeft(currentAvlNode)
             } else {
-                varZ?.right = rotateRight(varZ?.right)
-                varZ = rotateLeft(varZ)
+                currentAvlNode?.right = rotateRight(currentAvlNode?.right)
+                currentAvlNode = rotateLeft(currentAvlNode)
             }
-        } else if (balance < -1) {
-            if (height(varZ?.left?.left) > height(varZ?.left?.right)) {
-                varZ = rotateRight(varZ)
+        } else if (balanceFactor < MIN_ALLOWED_BALANCE_FACTOR) {
+            if (height(currentAvlNode?.left?.left) > height(currentAvlNode?.left?.right)) {
+                currentAvlNode = rotateRight(currentAvlNode)
             } else {
-                varZ?.left = rotateLeft(varZ?.left)
-                varZ = rotateRight(varZ)
+                currentAvlNode?.left = rotateLeft(currentAvlNode?.left)
+                currentAvlNode = rotateRight(currentAvlNode)
             }
         }
-        return varZ
+        return currentAvlNode
     }
 
 }
