@@ -1,6 +1,9 @@
 package theory.algorithms.sorts.bubble_sort
 
 import org.junit.jupiter.api.Assertions.*
+import practice.ya_contest.sprint_3_sorts_and_recursion.notes.sorts.bubble_sort.bubbleSortFirstOptimization
+import practice.ya_contest.sprint_3_sorts_and_recursion.notes.sorts.bubble_sort.bubbleSortSecondOptimization
+import practice.ya_contest.sprint_3_sorts_and_recursion.notes.sorts.bubble_sort.bubbleSortWithoutOptimization
 import kotlin.test.Test
 
 internal class BubbleSortTest {

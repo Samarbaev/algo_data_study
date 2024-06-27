@@ -1,13 +1,13 @@
 package practice.array_and_hashing.contains_duplicate
 
 import org.junit.jupiter.api.Test
-import practice.leetcode.array_and_hashing.contains_duplicate.ContainDuplicatesSolution
+import leetcode.array_and_hashing.contains_duplicate.ContainDuplicatesSolution
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 internal class ContainDuplicatesSolutionTest {
 
-    private val solution = ContainDuplicatesSolution()
+    private val solution = leetcode.array_and_hashing.contains_duplicate.ContainDuplicatesSolution()
 
     @Test
     fun testCase1() {

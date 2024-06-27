@@ -2,6 +2,7 @@ package theory.algorithms.combinatorics.generate_permutations
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import practice.leetcode.combinatorics.generate_permutations.PermutationIterativeImpl
 
 internal class PermutationIterativeImplTest {
 

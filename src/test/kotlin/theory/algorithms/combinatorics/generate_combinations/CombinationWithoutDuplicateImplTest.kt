@@ -1,6 +1,7 @@
 package theory.algorithms.combinatorics.generate_combinations
 
 import org.junit.jupiter.api.Test
+import practice.leetcode.combinatorics.generate_combinations.CombinationWithoutDuplicateImpl
 import kotlin.test.assertEquals
 
 internal class CombinationWithoutDuplicateImplTest {

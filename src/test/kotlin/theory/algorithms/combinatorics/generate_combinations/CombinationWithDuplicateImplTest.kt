@@ -2,6 +2,7 @@ package theory.algorithms.combinatorics.generate_combinations
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import practice.leetcode.combinatorics.generate_combinations.CombinationWithDuplicateImpl
 
 internal class CombinationWithDuplicateImplTest {
 
