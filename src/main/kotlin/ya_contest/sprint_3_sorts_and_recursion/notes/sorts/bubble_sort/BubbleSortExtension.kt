@@ -1,6 +1,6 @@
 package ya_contest.sprint_3_sorts_and_recursion.notes.sorts.bubble_sort
 
-import practice.ya_contest.sprint_3_sorts_and_recursion.notes.sorts.swap
+import ya_contest.sprint_3_sorts_and_recursion.notes.sorts.swap
 
 
 fun IntArray.bubbleSortWithoutOptimization() {

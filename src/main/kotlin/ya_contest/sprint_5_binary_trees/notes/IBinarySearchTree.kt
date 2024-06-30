@@ -1,6 +1,6 @@
 package ya_contest.sprint_5_binary_trees.notes
 
-import practice.ya_contest.sprint_5_binary_trees.notes.avl.AvlNode
+import ya_contest.sprint_5_binary_trees.notes.avl.AvlNode
 
 interface IBinarySearchTree<T: Comparable<T>> {
 

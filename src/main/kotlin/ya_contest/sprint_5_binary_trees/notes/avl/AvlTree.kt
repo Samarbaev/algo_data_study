@@ -1,6 +1,7 @@
 package ya_contest.sprint_5_binary_trees.notes.avl
 
-import practice.ya_contest.sprint_5_binary_trees.notes.IBinarySearchTree
+import ya_contest.sprint_5_binary_trees.notes.IBinarySearchTree
+
 
 class AvlTree(
     private var root: AvlNode? = null

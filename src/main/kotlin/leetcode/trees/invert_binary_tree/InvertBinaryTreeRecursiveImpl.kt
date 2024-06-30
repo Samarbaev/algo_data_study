@@ -1,6 +1,7 @@
 package leetcode.trees.invert_binary_tree
 
-import practice.leetcode.trees.TreeNode
+import leetcode.trees.TreeNode
+
 
 // Algorithm:
 // Обратное дерево для пустого дерева также является пустым деревом.

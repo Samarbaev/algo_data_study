@@ -1,6 +1,6 @@
 package ya_contest.sprint_5_binary_trees.contest.final
 
-import practice.ya_contest.sprint_5_binary_trees.contest.TreeNode
+import ya_contest.sprint_5_binary_trees.contest.TreeNode
 
 class DeleteNodeFromBST {
 
