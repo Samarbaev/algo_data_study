@@ -1,0 +1,2 @@
+package ya_contest.sprint_2_basic_data_structures.contest
+
