@@ -22,12 +22,13 @@
 | 20 | 2 | 0 | 0 | 192 | 0 | 0 | 0 |Значение отдельных байтов |
 | 1000|1001 |1002 |1003 | 1004| 1005| 1006|1007 |Адреса |
 
-```
-    // пример создания массива на kotlin
-    // создали массив int-ов на 10 элементов и заполнили его ну нулями 
-    val array = IntArray(size = 10) { 0 }
+###### Пример 1. Создание массива
 
-    // пример создания массива на c++ и использование библиотеку stl
+```kotlin
+    val array = IntArray(size = 10) { 0 }
+```
+
+```cpp
     std::array<int, 10> numbers
 ```
 
@@ -54,12 +55,16 @@
 1) Вставка в конец
    чтобы это сделать достаточно узнать номер последней ячейки массива и записать элемент в следующую за ней.
 
-```
+###### Пример 2. Вставка в конец
+
+``` kotlin
     // вставка в конец динамического массива - kotlin
     var filmsWishList = mutableListOf("Джон Уик 3", "Аватар 2", "Форсаж 9", "Индиана Джонс 5", "Бэтмен")
     filmsWishList.add("Чёрная Вдова")
-    
-    // вставка в конец динамического массива - c++
+```
+
+```cpp
+   // вставка в конец динамического массива - c++
     #include <iostream>
     #include <vector>
     using namespace std;
@@ -78,11 +83,15 @@
    Чтобы это сделать необходимо подвинуть все элементы на n+1, чтобы освободить место и тогда мы уже сможем вставить
    элемент в начало
 
-```
+###### Пример 3. Вставка в начало
+
+```kotlin
    // вставка в начало динамического массива - kotlin
-   var filmsWishList = mutableListOf("Джон Уик 3", "Аватар 2", "Форсаж 9", "Индиана Джонс 5", "Бэтмен")
-   filmsWishList.add(0, "Чёрная Вдова")
-   
+var filmsWishList = mutableListOf("Джон Уик 3", "Аватар 2", "Форсаж 9", "Индиана Джонс 5", "Бэтмен")
+filmsWishList.add(0, "Чёрная Вдова")
+```
+
+```cpp
    // вставка в начало динамического массива - с++ 
    #include <vector>
 
@@ -123,64 +132,70 @@
 2) Двунаправленный - каждая нода содержит ссылку на следующий и предыдущий элемент
 3) Кольцевой - хвост указывает на голову
 
-```
+###### Пример 4. Создание связанного списка
+
+```kotlin
    // создание связанного списка на kotlin
-   class Node(var value: Any? = null, var next: Node? = null)
+class Node(var value: Any? = null, var next: Node? = null)
 
-   fun printLinkedList(vertex: Node?) {
-      var current = vertex
-      
-      while (current != null) {
-         print("${current.value} -> ")
-         current = current.next
-      }
+fun printLinkedList(vertex: Node?) {
+    var current = vertex
+
+    while (current != null) {
+        print("${current.value} -> ")
+        current = current.next
+    }
+
+    println("None")
+}
+
+fun main() {
+    val n3 = Node(value = 'third')
+    val n2 = Node(value = 'second', next = n3)
+    val n1 = Node(value = 'first', next = n2)
+    printLinkedList(n1)
+}
+```
+
+```cpp
    
-      println("None")
-      }
-   }
-   
-   val n3 = Node(value = 'third')
-   val n2 = Node(value = 'second', next = n3)
-   val n1 = Node(value = 'first', next = n2)
-   printLinkedList(n1)
-      
-   // Создание связанного списка на c++
-   #include <iostream>
+// Создание связанного списка на c++
+#include<iostream>
 
-   struct Node {
-     int value;
-       Node* next = nullptr;
-   }
+struct Node {
+    int value;
+    Node * next = nullptr;
+}
 
-   void print_linked_list(Node* vertex) {
-     while (vertex) {
-           std::cout << vertex->value << " -> ";
-           vertex = vertex->next;
-      }
-     std::cout << "None" << std::endl;
-   }
+void print_linked_list (Node * vertex) {
+    while (vertex) {
+        std::cout < < vertex->value << " -> ";
+        vertex = vertex->next;
+    }
+    std::cout < < "None" << std::endl;
+}
 
-   int main() {
-      Node* n3 = new Node("third");
-      Node* n2 = new Node("second", n3);
-      Node* n1 = new Node("first", n2);
-      print_linked_list(n1);
-      print_linked_list(n2);
+int main () {
+    Node * n3 = new Node ("third");
+    Node * n2 = new Node ("second", n3);
+    Node * n1 = new Node ("first", n2);
+    print_linked_list(n1);
+    print_linked_list(n2);
 
-      delete n3;
-      delete n2;
-      delete n1;
-      return 0;
-      }
-   }
-
+    delete n3;
+    delete n2;
+    delete n1;
+    return 0;
+}
 ```
 
 Рассмотрим операцию вставки. В связанном списке, также как и в массиве, можно вставлять в разные места: в начало, в
 конец и в середину.
 Рассмотрим операцию вставки в конкретное место:
 
-```
+###### Пример 5. Операция вставки в произвольную позицию
+
+```kotlin
 // вставка в произвольное место на kotlin
 fun getNodeByIndex(node: Node?, index: Int): Node? {
     var current = node
@@ -214,7 +229,9 @@ val value = "new_node"
 var head = insertNode(node, index, value)
 
 printLinkedList(head)
+```
 
+```cpp
 //вставка в произвольное место на с++
 #include <iostream>
 
@@ -285,9 +302,11 @@ int main() {
    Также нередко для удобства использования стека есть и дополнительные методы:
 4) isEmpty() - определяет пустой ли стек
 
-```
-    // реализация стека на kotlin
-   class Stack {
+###### Пример 6. Реализация стека
+
+```kotlin
+// реализация стека на kotlin
+class Stack {
     private var items = mutableListOf<Any>()
     fun push(item: Any) {
         items.add(item)
@@ -303,47 +322,52 @@ int main() {
     }
 }
 
-    fun main(args: Array<String>) {
-       val stack = Stack()
-       stack.push("apple")
-       stack.push("banana")
-       stack.push("orange")
-       stack.pop()
+fun main(args: Array<String>) {
+    val stack = Stack()
+    stack.push("apple")
+    stack.push("banana")
+    stack.push("orange")
+    stack.pop()
 }
+```
 
-    // реализация стека на с++
-   #include <iostream>
-   #include <vector>
-   #include <string>
+```cpp
+// реализация стека на с++
+#include<iostream>
+#include<vector>
+#include<string>
 
-    class Stack {
-     private:
-       std::vector<std::string> items;
-    
-     public:
-       void push(std::string item) { items.push_back(item); }
+class Stack {
+    private :
+    std::vector<std::string> items;
 
-       std::string pop() {
-        std::string lastItem = items.back();
+    public :
+    void push(std::string item)
+    { items.push_back(item); }
+
+    std::string pop()
+    {
+        std::string lastItem = items . back ();
         items.pop_back();
         return lastItem;
-       }
+    }
 
-       std::string peek() { return items.back(); }
+    std::string peek()
+    { return items.back(); }
 
-       int size() { return items.size(); }
+    int size()
+    { return items.size(); }
 };
 
-int main() {
-   Stack stack;
-   stack.push("apple");
-   stack.push("banana");
-   stack.push("orange");
-   stack.pop();
+int main () {
+    Stack stack;
+    stack.push("apple");
+    stack.push("banana");
+    stack.push("orange");
+    stack.pop();
 
-   return 0;
+    return 0;
 }
-
 ```
 
 #### 5. Очередь и дек
